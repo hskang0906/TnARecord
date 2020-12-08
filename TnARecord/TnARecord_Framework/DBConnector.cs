@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
@@ -6,25 +7,30 @@ using MySql.Data.MySqlClient;
 
 namespace TnARecord
 {
-    public enum DBQueryType
+    public enum TableType
     {
-        select = 0,
-        insert,
-        update,
-        delete
+        user_info = 0,
+        TnA_info,
     }
+    public enum FieldType
+    {
+        userID = 1,
+        userPwn,
+        userName,
+        all,
+    }
+
     public class DBConnector
     {
         private MySqlConnection DBConnection { get; set; }
         private MySqlCommand Command { get; set; }
         private MySqlDataReader reader { get; set; }
 
-        private bool ConnectStatus { get; set; }
-
         public void Connector(string serverIP = "localhost")
         {
             string ConnectString = "Server=localhost;Database=tnarecord;Uid=root;Pwd=root;Charset=utf8;";
             DBConnection = new MySqlConnection(ConnectString);
+
             try
             {
                 DBConnection.Open();
@@ -32,36 +38,18 @@ namespace TnARecord
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                ConnectStatus = false;
             }
 
-            Command = DBConnection.CreateCommand();
-
+            if (DBConnection.State == ConnectionState.Open)
+                Command = DBConnection.CreateCommand();
         }
 
-        public void Query(DBQueryType querytype, string querystring)
+        public void Disconnector()
         {
-            if (DBConnection.Ping() == true)
-            {
-                Command.CommandText = querystring;
-
-                switch (querytype)
-                {
-                    case DBQueryType.select:
-                        reader = Command.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Console.WriteLine($"{reader["userid"]}, {reader["userpwd"]}, {reader["userName"]}");
-                        }
-                        break;
-                    default:
-                        Command.ExecuteNonQuery();
-                        break;
-                }
-            }
-
+            if (DBConnection.State == ConnectionState.Open)
+                DBConnection.Close();
             else
-                Console.WriteLine("DisConnected SQL Server!");
+                Console.WriteLine("연결 상태가 아닙니다.");
         }
     }
 }

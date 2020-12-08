@@ -29,3 +29,4 @@ C:\Users\hskang\source\Study\TnARecord\TnARecord_Framework\bin\Debug\System.Buff
 C:\Users\hskang\source\Study\TnARecord\TnARecord_Framework\bin\Debug\System.Memory.xml
 C:\Users\hskang\source\Study\TnARecord\TnARecord_Framework\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\hskang\source\Study\TnARecord\TnARecord_Framework\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\hskang\source\Study\TnARecord\TnARecord_Framework\obj\Debug\TnARecord.csprojAssemblyReference.cache

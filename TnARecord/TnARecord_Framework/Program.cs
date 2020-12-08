@@ -10,11 +10,40 @@ namespace TnARecord
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Maria DB Test :: Query");
+            bool endApp = false;
 
             var dbconnnector = new DBConnector();
             dbconnnector.Connector();
-            dbconnnector.Query(DBQueryType.select, "select * from user_info");
+
+            Console.WriteLine("People-i TnA Record Program\r");
+            Console.WriteLine("---------------------------\n");
+
+            int argsCount = args.Length;
+
+            while (!endApp)
+            {
+                Console.Write("User ID : ");
+                string userID = Console.ReadLine();
+
+                if (userID == "hskang")
+                {
+                    Console.WriteLine("아이디가 일치합니다.");
+                }
+                else if (userID == "-q")
+                {
+                    Console.WriteLine("프로그램을 종료합니다.");
+                    endApp = true;
+                }
+                else
+                {
+                    Console.WriteLine("아이디가 다릅니다.");
+                }
+                    
+            }
+
+            dbconnnector.Disconnector();
+
+            return;
         }
     }
 }
