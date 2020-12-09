@@ -13,7 +13,7 @@ namespace TnARecord
             bool endApp = false;
 
             var dbconnnector = new DBConnector();
-            dbconnnector.Connector();
+            dbconnnector.Connect();
 
             Console.WriteLine("People-i TnA Record Program\r");
             Console.WriteLine("---------------------------\n");
@@ -24,16 +24,38 @@ namespace TnARecord
             {
                 Console.Write("User ID : ");
                 string userID = Console.ReadLine();
-
-                if (userID == "hskang")
+                
+                var queryEnsure = dbconnnector.Query($"select * from user_info where userid=\'{userID}\'");
+                if (queryEnsure.userNumb != null)
                 {
-                    Console.WriteLine("아이디가 일치합니다.");
+                    Console.Write("User Password : ");
+                    bool pwdInputend = false;
+                    string userPwd = "";
+                    while (!pwdInputend)
+                    {
+                        var input = Console.ReadKey(true);
+                        if (input.Key == ConsoleKey.Enter)
+                        {
+                            Console.Write('\n');
+                            pwdInputend = true;
+                        }
+                        else
+                        {
+                            userPwd += input.KeyChar;
+                        }
+                    }
+
+                    if (queryEnsure.userPwd == userPwd)
+                    {
+                        Console.WriteLine("로그인에 성공하였습니다.");
+                    }
                 }
                 else if (userID == "-q")
                 {
                     Console.WriteLine("프로그램을 종료합니다.");
                     endApp = true;
                 }
+
                 else
                 {
                     Console.WriteLine("아이디가 다릅니다.");
@@ -41,7 +63,7 @@ namespace TnARecord
                     
             }
 
-            dbconnnector.Disconnector();
+            dbconnnector.Disconnect();
 
             return;
         }
