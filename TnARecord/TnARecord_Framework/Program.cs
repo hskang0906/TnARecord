@@ -34,21 +34,34 @@ namespace TnARecord
                     while (!pwdInputend)
                     {
                         var input = Console.ReadKey(true);
-                        if (input.Key == ConsoleKey.Enter)
+                        switch (input.Key)
                         {
-                            Console.Write('\n');
-                            pwdInputend = true;
-                        }
-                        else
-                        {
-                            userPwd += input.KeyChar;
+                            case ConsoleKey.Backspace:
+                                userPwd = userPwd.Substring(0, userPwd.Length - 1);
+                                break;
+                            case ConsoleKey.Enter:
+                                Console.Write('\n');
+                                pwdInputend = true;
+                                break;
+                            case ConsoleKey.Delete:
+                                break;
+                            default:
+                                Console.Write('*');
+                                userPwd += input.KeyChar;
+                                break;
                         }
                     }
 
                     if (queryEnsure.userPwd == userPwd)
                     {
                         Console.WriteLine("로그인에 성공하였습니다.");
+                        ConsoleUserInterface.MainMenu();
                     }
+                    else
+                    {
+                        Console.WriteLine("비밀번호가 틀립니다.");
+                    }
+                        
                 }
                 else if (userID == "-q")
                 {
